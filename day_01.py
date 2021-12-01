@@ -3,12 +3,12 @@ from itertools import pairwise
 from utils.file_reader import get_list_of_ints_from_file
 
 
-def part_one(meassures: List[int]) -> int:
-    return sum([i < j for i, j in pairwise(meassures)])
+def part_one(in_list: List[int]) -> int:
+    return sum([i < j for i, j in pairwise(in_list)])
 
 
-def part_two(meassures: List[int], window: int = 3) -> int:
-    return part_one([sum(meassures[i : i + window]) for i in range(len(meassures))])
+def part_two(in_list: List[int], avg: int = 3) -> int:
+    return part_one([sum(in_list[i: i + avg]) for i in range(len(in_list))])
 
 
 def main():
