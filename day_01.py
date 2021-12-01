@@ -1,4 +1,3 @@
-# from utils import file_reader
 from typing import List
 from itertools import pairwise
 from utils.file_reader import get_list_of_ints_from_file
