@@ -1,6 +1,7 @@
 # from utils import file_reader
 from typing import List
 from itertools import pairwise
+from utils.file_reader import get_list_of_ints_from_file
 
 
 def part_one(meassures: List[int]) -> int:
@@ -14,10 +15,7 @@ def part_two(meassures: List[int], window: int = 3) -> int:
 def main():
     file_path = "inputs/day_01.txt"
 
-    input_list: List[int]
-
-    with open(file_path, 'r') as file_handler:
-        input_list = [int(i) for i in file_handler.readlines()]
+    input_list = get_list_of_ints_from_file(file_path)
 
     print(part_one(input_list))
     print(part_two(input_list, 3))
