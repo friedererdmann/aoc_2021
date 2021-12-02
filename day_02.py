@@ -1,50 +1,54 @@
 from utils.file_reader import read_file_to_lines
 
 
-def part_one(in_list):
+def part_one(f_list):
     horizontal = 0
     vertical = 0
 
-    h = ["forward"]
-    v = ["down", "up"]
+    fwd = "forward"
+    dwn = "down"
+    up = "up"
 
-    for inst in in_list:
-        direction, amount = inst.split()
-        if direction in h:
-            horizontal += int(amount)
-        if direction == "down":
-            vertical += int(amount)
-        if direction == "up":
-            vertical -= int(amount)
+    for dir_, value_ in f_list:
+        horizontal += value_ * (dir_ == fwd)
+        vertical += value_ * ((dir_ == dwn) - (dir_ == up))
 
     return horizontal * vertical
 
 
-def part_two(in_list):
+def part_two(f_list):
     horizontal = 0
     vertical = 0
     aim = 0
 
-    h = ["forward"]
+    fwd = "forward"
+    dwn = "down"
+    up = "up"
 
-    for inst in in_list:
-        direction, amount = inst.split()
-        if direction in h:
-            horizontal += int(amount)
-            vertical += aim * int(amount)
-        if direction == "down":
-            aim += int(amount)
-        if direction == "up":
-            aim -= int(amount)
+    for dir_, value_ in f_list:
+        vertical += aim * value_ * (dir_ == fwd)
+        horizontal += value_ * (dir_ == fwd)
+        aim += value_ * ((dir_ == dwn) - (dir_ == up))
 
     return horizontal * vertical
+
+
+def data_prep(lines):
+    fwd = "forward"
+    dwn = "down"
+    up = "up"
+    vector_list = [(int(value_) * (dir_ == fwd), int(value_) * ((dir_ == dwn) - (dir_ == up))) for (dir_, value_) in [i.split() for i in lines]]
+    # print(vector_list)
+    formatted_inst = [(x, int(y)) for (x, y) in [i.split() for i in lines]]
+    return formatted_inst
 
 
 def main():
     file_path = "inputs/day_02.txt"
     instructions = read_file_to_lines(file_path)
-    print(part_one(instructions))
-    print(part_two(instructions))
+    formatted_inst = data_prep(instructions)
+    print(part_one(formatted_inst))  # 1938402
+    print(part_two(formatted_inst))  # 1947878632
 
 
 if __name__ == "__main__":
