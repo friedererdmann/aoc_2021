@@ -25,6 +25,8 @@ def part_two(in_list):
     vertical = 0
     aim = 0
 
+    h = ["forward"]
+
     for inst in instructions:
         direction, amount = inst.split()
         if direction in h:
