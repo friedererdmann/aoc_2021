@@ -1,25 +1,17 @@
 from utils.file_reader import read_file_to_lines
+from itertools import accumulate
 
 
 def part_one(f_list):
-    horizontal = 0
-    vertical = 0
-
-    for i, j in f_list:
-        horizontal += i
-        vertical += j
+    horizontal = sum(x for x, y in f_list)
+    vertical = sum(y for x, y in f_list)
     return horizontal * vertical
 
 
 def part_two(f_list):
-    horizontal = 0
-    vertical = 0
-    aim = 0
-
-    for i, j in f_list:
-        vertical += aim * i
-        horizontal += i
-        aim += j
+    horizontal = sum(x for x, y in f_list)
+    aim_list = accumulate(y for x, y in f_list)
+    vertical = sum(i * j for i, j in zip([x for x, y in f_list], aim_list))
 
     return horizontal * vertical
 
