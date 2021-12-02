@@ -8,7 +8,7 @@ def part_one(in_list):
     h = ["forward"]
     v = ["down", "up"]
 
-    for inst in instructions:
+    for inst in in_list:
         direction, amount = inst.split()
         if direction in h:
             horizontal += int(amount)
@@ -27,7 +27,7 @@ def part_two(in_list):
 
     h = ["forward"]
 
-    for inst in instructions:
+    for inst in in_list:
         direction, amount = inst.split()
         if direction in h:
             horizontal += int(amount)
@@ -40,7 +40,12 @@ def part_two(in_list):
     return horizontal * vertical
 
 
-file_path = "inputs/day_02.txt"
-instructions = read_file_to_lines(file_path)
-print(part_one)
-print(part_two)
+def main():
+    file_path = "inputs/day_02.txt"
+    instructions = read_file_to_lines(file_path)
+    print(part_one(instructions))
+    print(part_two(instructions))
+
+
+if __name__ == "__main__":
+    main()
