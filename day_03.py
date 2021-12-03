@@ -1,31 +1,20 @@
+from typing import Counter
 from utils.file_reader import read_file_to_lines
 
 
 def part_one(instructions):
-    gamma_rate = ""
-    epsilon_rate = ""
-
-    length = len(instructions[0])
-
-    most_common = {k: 0 for k in range(length)}
-
-    for line in instructions:
-        for idx, bit in enumerate(line):
-            match bit:
-                case "1":
-                    most_common[idx] += 1
-                case "0":
-                    most_common[idx] -= 1
-
-    for idx in range(length):
-        if most_common[idx] > 0:
-            gamma_rate += str(1)
-            epsilon_rate += str(0)
+    transpose = list(map(list, zip(*instructions)))
+    gamma = ""
+    epsilon = ""
+    for row in transpose:
+        if row.count("1") > row.count("0"):
+            gamma += "1"
+            epsilon += "0"
         else:
-            gamma_rate += str(0)
-            epsilon_rate += str(1)
+            gamma += "0"
+            epsilon += "1"
 
-    return int(gamma_rate, base=2) * int(epsilon_rate, base=2)
+    return int(gamma, 2) * int(epsilon, 2)
 
 
 def part_two(instructions):
