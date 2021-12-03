@@ -4,10 +4,8 @@ from utils.file_reader import read_file_to_lines
 
 def part_one(instructions):
     transpose = list(map(list, zip(*instructions)))
-    gamma, epsilon = "", ""
-    for row in transpose:
-        gamma += max(set(row), key=row.count)
-        epsilon += min(set(row), key=row.count)
+    gamma = "".join([max(set(row), key=row.count) for row in transpose])
+    epsilon = "".join([min(set(row), key=row.count) for row in transpose])
 
     return int(gamma, 2) * int(epsilon, 2)
 
