@@ -1,4 +1,4 @@
-from typing import Counter
+from typing import Counter, Union
 from utils.file_reader import read_file_to_lines
 
 
@@ -11,56 +11,26 @@ def part_one(instructions):
 
 
 def part_two(instructions):
+    transpose = list(map(list, zip(*instructions)))
+    oxygen_lines = list(range(len(instructions)))
+    scrubbing_lines = list(range(len(instructions)))
     oxygen_rate = ""
     scrubber_rate = ""
+    lines = instructions
+    for idx, row in enumerate(transpose):
+        oxygen_valid_rows = [row[i] for i in oxygen_lines]
+        scrubbing_valid_rows = [row[i] for i in scrubbing_lines]
+        o_count = oxygen_valid_rows.count("1") - oxygen_valid_rows.count("0")
+        s_count = scrubbing_valid_rows.count("1") - scrubbing_valid_rows.count("0")
+        o_bit = str(int(o_count >= 0))
+        s_bit = str(int(s_count < 0))
+        oxygen_lines = [i for i, line in enumerate(lines) if line[idx] == o_bit and i in oxygen_lines]
+        scrubbing_lines = [i for i, line in enumerate(lines) if line[idx] == s_bit and i in scrubbing_lines]
+        if len(oxygen_lines) == 1:
+            oxygen_rate = instructions[oxygen_lines[0]]
+        if len(scrubbing_lines) == 1:
+            scrubber_rate = instructions[scrubbing_lines[0]]
 
-    length = len(instructions[0])
-
-    def remove_items(f_list, itteration, switch = 1):
-        n_list = list()
-        one = 0
-
-        for line in f_list:
-            bit = line[itteration]
-            match bit:
-                case "1":
-                    one += 1
-                case "0":
-                    one -= 1
-
-        for line in f_list:
-            bit = line[itteration]
-            if switch:
-                if one >= 0:
-                    if bit == "1":
-                        n_list.append(line)
-                else:
-                    if bit == "0":
-                        n_list.append(line)
-            else:
-                if one < 0:
-                    if bit == "1":
-                        n_list.append(line)
-                else:
-                    if bit == "0":
-                        n_list.append(line)
-
-        return n_list
-
-    oxygen = instructions
-    for idx in range(length):
-        oxygen = remove_items(oxygen, idx)
-        if len(oxygen) == 1:
-            break
-
-    scrubber = instructions
-    for idx in range(length):
-        scrubber = remove_items(scrubber, idx, 0)
-        if len(scrubber) == 1:
-            break
-
-    oxygen_rate = oxygen[0]
-    scrubber_rate = scrubber[0]
     return int(oxygen_rate, base=2) * int(scrubber_rate, base=2)
 
 
