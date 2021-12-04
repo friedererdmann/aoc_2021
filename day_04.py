@@ -29,7 +29,7 @@ def looping(instructions, early_out=False):
                         line[k] = "x"
                         board[j] = line
                         boards[i] = board
-                        if line.count("x") == len(line) or [l[k] for l in board].count("x") == 5:
+                        if line.count("x") == len(line) or [l[k] for l in board].count("x") == len(line):
                             summary = sum([sum([x for x in y if isinstance(x, int)]) for y in board])
                             scores.append(summary*number)
                             if early_out:
