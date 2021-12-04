@@ -20,7 +20,7 @@ def looping(instructions, early_out=False):
             if number not in board: continue
             x = board.index(number)
             modulo = x % 5
-            floor = int(x/5) * 5
+            floor = x // 5 * 5
             board[x] = str(board[x])
             row = len([y for y in board[floor: floor + 5] if isinstance(y, str)]) == 5
             column = len([y for y in board[modulo::5] if isinstance(y, str)]) == 5
