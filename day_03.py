@@ -4,7 +4,7 @@ from operator import lt, ge
 
 def part_one(instructions):
     gamma = int(most_common_bit(instructions), 2)
-    epsilon = ~ gamma & pow(2, len(instructions[0])) - 1
+    epsilon = pow(2, len(instructions[0])) - 1 - gamma
     return gamma * epsilon
 
 
