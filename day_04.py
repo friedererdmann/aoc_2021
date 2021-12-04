@@ -23,7 +23,7 @@ def looping(instructions, early_out=False):
                 floor = int(x/5) * 5
                 board[x] = str(board[x])
                 row = len([y for y in board[floor: floor + 5] if isinstance(y, str)]) == 5
-                column = len([y for i, y in enumerate(board) if i % 5 == modulo and isinstance(y, str)]) == 5
+                column = len([y for y in board[modulo::5] if isinstance(y, str)]) == 5
                 if row or column:
                     scores.append(sum([z for z in board if isinstance(z, int)]) * number)
                     boards[i] = list()
