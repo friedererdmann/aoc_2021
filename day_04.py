@@ -20,18 +20,13 @@ def data_prep(instructions):
 
 def looping(instructions):
     numbers, boards = data_prep(instructions)
-    winner = None
     final = 0
     scores = list()
     for number in numbers:
-        if winner: break
         final = number
         for i, board in enumerate(boards):
-            if winner: break
             for j, line in enumerate(board):
-                if winner: break
                 for k, entry in enumerate(line):
-                    if winner: break
                     if entry == number:
                         # print(board, line, entry)
                         line[k] = "x"
