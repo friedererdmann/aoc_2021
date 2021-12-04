@@ -17,18 +17,18 @@ def looping(instructions, early_out=False):
     scores = list()
     for number in numbers:
         for i, board in enumerate(boards):
-            if number in board:
-                x = board.index(number)
-                modulo = x % 5
-                floor = int(x/5) * 5
-                board[x] = str(board[x])
-                row = len([y for y in board[floor: floor + 5] if isinstance(y, str)]) == 5
-                column = len([y for y in board[modulo::5] if isinstance(y, str)]) == 5
-                if row or column:
-                    scores.append(sum([z for z in board if isinstance(z, int)]) * number)
-                    boards[i] = list()
-                    if early_out:
-                        return scores
+            if number not in board: continue
+            x = board.index(number)
+            modulo = x % 5
+            floor = int(x/5) * 5
+            board[x] = str(board[x])
+            row = len([y for y in board[floor: floor + 5] if isinstance(y, str)]) == 5
+            column = len([y for y in board[modulo::5] if isinstance(y, str)]) == 5
+            if row or column:
+                scores.append(sum([z for z in board if isinstance(z, int)]) * number)
+                boards[i] = list()
+                if early_out:
+                    return scores
     return scores
 
 
