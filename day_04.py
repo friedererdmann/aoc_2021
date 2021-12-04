@@ -20,21 +20,18 @@ def data_prep(instructions):
 
 def looping(instructions):
     numbers, boards = data_prep(instructions)
-    final = 0
     scores = list()
     for number in numbers:
-        final = number
         for i, board in enumerate(boards):
             for j, line in enumerate(board):
                 for k, entry in enumerate(line):
                     if entry == number:
-                        # print(board, line, entry)
                         line[k] = "x"
                         board[j] = line
                         boards[i] = board
                         if line.count("x") == len(line) or [l[k] for l in board].count("x") == 5:
                             summary = sum([sum([x for x in y if isinstance(x, int)]) for y in board])
-                            scores.append(summary*final)
+                            scores.append(summary*number)
                             boards[i] = []
     return scores
 
