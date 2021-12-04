@@ -6,7 +6,7 @@ def data_prep(instructions):
     boards = [[]]
     for line in instructions[1:]:
         if line:
-            boards[len(boards)-1].append([int(x) for x in line.split()])
+            boards[len(boards)-1] += [int(x) for x in line.split()]
         else:
             boards.append([])
     return numbers, boards
@@ -17,20 +17,18 @@ def looping(instructions, early_out=False):
     scores = list()
     for number in numbers:
         for i, board in enumerate(boards):
-            for j, line in enumerate(board):
-                for k, entry in enumerate(line):
-                    if entry == number:
-                        line[k] = "x"
-                        board[j] = line
-                        boards[i] = board
-                        if line.count("x") == len(line) or [l[k] for l in board].count("x") == len(line):
-                            summary = sum([sum([x for x in y if isinstance(x, int)]) for y in board])
-                            scores.append(summary*number)
-                            if early_out:
-                                return scores
-                            boards[i] = list()
+            if number in board:
+                x = board.index(number)
+                modulo = x % 5
+                board[x] = "x"
+                row = board[x - modulo: x - modulo + 5].count("x") == 5
+                column = [y for i, y in enumerate(board) if i % 5 == modulo].count("x") == 5
+                if row or column:
+                    scores.append(sum([z for z in board if isinstance(z, int)]) * number)
+                    boards[i] = list()
+                    if early_out:
+                        return scores
     return scores
-
 
 def part_one(instructions):
     return looping(instructions, True)[0]
