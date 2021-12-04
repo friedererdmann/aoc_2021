@@ -3,18 +3,12 @@ from utils.file_reader import read_file_to_lines
 
 def data_prep(instructions):
     numbers = [int(x) for x in instructions[0].split(",")]
-    boards = list()
-    board = list()
+    boards = [[]]
     for line in instructions[1:]:
         if line:
-            board.append([int(x) for x in line.split()])
+            boards[len(boards)-1].append([int(x) for x in line.split()])
         else:
-            if board:
-                boards.append(board)
-                board = list()
-    if board:
-        boards.append(board)
-
+            boards.append([])
     return numbers, boards
 
 
