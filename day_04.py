@@ -2,55 +2,27 @@ from utils.file_reader import read_file_to_lines
 
 
 def data_prep(instructions):
-    numbers = instructions[0].split(",")
+    numbers = [int(x) for x in instructions[0].split(",")]
     boards = list()
     board = list()
-    for line in instructions[2:]:
+    for line in instructions[1:]:
         if line:
-            board.append(line.strip().replace("  ", " ").split(" "))
+            board.append([int(x) for x in line.split()])
         else:
-            boards.append(board)
-            board = list()
-    boards.append(board)
+            if board:
+                boards.append(board)
+                board = list()
+    if board:
+        boards.append(board)
 
-    for board in boards:
-        for line in board:
-            print(line)
     return numbers, boards
 
 
-def part_one(instructions):
+def looping(instructions):
     numbers, boards = data_prep(instructions)
     winner = None
     final = 0
-    for number in numbers:
-        if winner: break
-        final = number
-        for i, board in enumerate(boards):
-            if winner: break
-            for j, line in enumerate(board):
-                if winner: break
-                for k, entry in enumerate(line):
-                    if winner: break
-                    if entry == number:
-                        # print(board, line, entry)
-                        line[k] = "x"
-                        board[j] = line
-                        boards[i] = board
-                        if line.count("x") == len(line):
-                            winner = board
-                        if [l[k] for l in board].count("x") == 5:
-                            winner = board
-
-    print(winner)
-    summary = sum([sum([int(x) for x in line if x.isdigit()]) for line in winner])
-    print(summary, int(final), summary*int(final))
-
-
-def part_two(instructions):
-    numbers, boards = data_prep(instructions)
-    winner = None
-    final = 0
+    scores = list()
     for number in numbers:
         if winner: break
         final = number
@@ -66,16 +38,25 @@ def part_two(instructions):
                         board[j] = line
                         boards[i] = board
                         if line.count("x") == len(line) or [l[k] for l in board].count("x") == 5:
-                            summary = sum([sum([int(x) for x in y if x.isdigit()]) for y in board])
-                            print(summary, int(final), summary*int(final))
+                            summary = sum([sum([x for x in y if isinstance(x, int)]) for y in board])
+                            scores.append(summary*final)
                             boards[i] = []
+    return scores
+
+
+def part_one(instructions):
+    return looping(instructions)[0]
+
+
+def part_two(instructions):
+    return looping(instructions)[-1]
 
 
 def main():
     file_path = "inputs/day_04.txt"
     instructions = read_file_to_lines(file_path)
-    print(part_one(instructions))  # 4006064 # 198
-    print(part_two(instructions))  # 5941884 # 230
+    print(part_one(instructions))  # 41503
+    print(part_two(instructions))  # 3178
 
 
 if __name__ == "__main__":
