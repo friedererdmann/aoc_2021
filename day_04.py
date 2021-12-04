@@ -18,7 +18,7 @@ def data_prep(instructions):
     return numbers, boards
 
 
-def looping(instructions):
+def looping(instructions, early_out=False):
     numbers, boards = data_prep(instructions)
     scores = list()
     for number in numbers:
@@ -32,12 +32,14 @@ def looping(instructions):
                         if line.count("x") == len(line) or [l[k] for l in board].count("x") == 5:
                             summary = sum([sum([x for x in y if isinstance(x, int)]) for y in board])
                             scores.append(summary*number)
-                            boards[i] = []
+                            if early_out:
+                                return scores
+                            boards[i] = list()
     return scores
 
 
 def part_one(instructions):
-    return looping(instructions)[0]
+    return looping(instructions, True)[0]
 
 
 def part_two(instructions):
