@@ -20,15 +20,17 @@ def looping(instructions, early_out=False):
             if number in board:
                 x = board.index(number)
                 modulo = x % 5
-                board[x] = "x"
-                row = board[x - modulo: x - modulo + 5].count("x") == 5
-                column = [y for i, y in enumerate(board) if i % 5 == modulo].count("x") == 5
+                floor = int(x/5) * 5
+                board[x] = str(board[x])
+                row = len([y for y in board[floor: floor + 5] if isinstance(y, str)]) == 5
+                column = len([y for i, y in enumerate(board) if i % 5 == modulo and isinstance(y, str)]) == 5
                 if row or column:
                     scores.append(sum([z for z in board if isinstance(z, int)]) * number)
                     boards[i] = list()
                     if early_out:
                         return scores
     return scores
+
 
 def part_one(instructions):
     return looping(instructions, True)[0]
