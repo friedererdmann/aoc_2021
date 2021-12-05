@@ -6,7 +6,7 @@ def data_prep(instructions):
     boards = [[]]
     for line in instructions[1:]:
         if line:
-            boards[len(boards)-1] += [int(x) for x in line.split()]
+            boards[-1].extend([int(x) for x in line.split()])
         else:
             boards.append([])
     return numbers, boards
