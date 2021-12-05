@@ -1,3 +1,4 @@
+import profile
 from utils.file_reader import read_file_to_lines
 
 
@@ -58,6 +59,21 @@ class Grid:
                     two_or_more += 1
         return two_or_more
 
+    def horizontal_line(self, line):
+        if line.height == 1:
+            for x in range(line.top_left.x, line.top_left.x + line.width):
+                self.add_point(x, line.top_left.y)
+        elif line.width == 1:
+            for y in range(line.top_left.y, line.top_left.y + line.height):
+                self.add_point(line.top_left.x, y)
+        return self
+
+    def diagonal_line(self, line):
+        if line.width == line.height:
+            for x in range(line.width):
+                self.add_point(line.A.x + line.h_dir * x, line.A.y + line.w_dir * x)
+        return self
+
     def __repr__(self):
         string = ""
         x = max([value for values in self.grid.values() for value in values]) + 1
@@ -76,44 +92,28 @@ def data_prep(instructions):
     return lines
 
 
-def horizontal_lines(grid, line):
-    if line.width == 1 or line.height == 1:
-        for x in range(line.top_left.x, line.top_left.x + line.width):
-            for y in range(line.top_left.y, line.top_left.y + line.height):
-                grid.add_point(x, y)
+def part_one(lines, grid):
+    for line in lines:
+        grid.horizontal_line(line)
     return grid
 
 
-def diagonal_lines(grid, line):
-    if line.width == line.height:
-        for x in range(line.width):
-            grid.add_point(line.A.x + line.h_dir * x, line.A.y + line.w_dir * x)
+def part_two(lines, grid):
+    for line in lines:
+        grid.diagonal_line(line)
     return grid
-
-
-def part_one(instructions):
-    lines = data_prep(instructions)
-    grid = Grid()
-    for line in lines:
-        grid = horizontal_lines(grid, line)
-    return grid.get_two_or_more()
-
-
-def part_two(instructions):
-    lines = data_prep(instructions)
-    grid = Grid()
-    for line in lines:
-        grid = horizontal_lines(grid, line)
-        grid = diagonal_lines(grid, line)
-    return grid.get_two_or_more()
 
 
 def main():
     file_path = "inputs/day_05.txt"
     instructions = read_file_to_lines(file_path)
-    print(part_one(instructions))
-    print(part_two(instructions))
+    lines = data_prep(instructions)
+    grid = Grid()
+    grid = part_one(lines, grid)
+    print(grid.get_two_or_more())
+    grid = part_two(lines, grid)
+    print(grid.get_two_or_more())
 
 
 if __name__ == "__main__":
-    main()
+    profile.run("main()", sort="cumulative")
