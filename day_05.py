@@ -1,4 +1,3 @@
-import profile
 from utils.file_reader import read_file_to_lines
 
 
@@ -116,4 +115,4 @@ def main():
 
 
 if __name__ == "__main__":
-    profile.run("main()", sort="cumulative")
+    main()
