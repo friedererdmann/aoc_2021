@@ -8,6 +8,11 @@ def data_prep(instructions):
 
 
 def part_one(data):
+    data.sort()
+    median = data[len(data)//2]
+    return sum([abs(x - median) for x in data])
+    # above: the elegant solution
+    # below: my original naive approach
     minimum = sys.maxsize
     for i in range(max(data)):
         minimum = min(minimum, sum([abs(x - i) for x in data]))
@@ -15,6 +20,10 @@ def part_one(data):
 
 
 def part_two(data):
+    average = sum(data) // len(data)
+    return sum([(((x - average) ** 2) + abs(x - average)) // 2 for x in data])
+    # above: the elegant solution
+    # below: my original naive approach
     minimum = sys.maxsize
     for i in range(max(data)):
         minimum = min(minimum, sum([(((x - i) ** 2) + abs(x - i)) // 2 for x in data]))
