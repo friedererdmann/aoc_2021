@@ -27,7 +27,8 @@ def part_two(instructions):
     for i in range(max(instructions)):
         distance = 0
         for j in instructions:
-            distance += sum(range(abs(i - j) + 1))
+            x = abs(i - j)
+            distance += (pow(x, 2) + x) / 2
         if distance < max_distance:
             max_distance = distance
             point = i
