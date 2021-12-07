@@ -1,3 +1,4 @@
+import sys
 from utils.file_reader import read_file_to_lines
 
 
@@ -8,27 +9,24 @@ def data_prep(instructions):
 
 
 def part_one(instructions):
-    max_distance = sum(instructions)
+    minimum = sys.maxsize
     point = 0
     for i in range(max(instructions)):
-        distance = 0
-        for j in instructions:
-            distance += abs(i - j)
-        if distance < max_distance:
-            max_distance = distance
+        distance = sum([abs(x - i) for x in instructions])
+        if distance < minimum:
+            minimum = distance
             point = i
-    return point, max_distance
+    return point, minimum
 
 
 def part_two(instructions):
-    import sys
     max_distance = sys.maxsize
     point = 0
     for i in range(max(instructions)):
         distance = 0
         for j in instructions:
             x = abs(i - j)
-            distance += (pow(x, 2) + x) / 2
+            distance += (x * x + x) / 2
         if distance < max_distance:
             max_distance = distance
             point = i
