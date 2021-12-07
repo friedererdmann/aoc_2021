@@ -20,17 +20,14 @@ def part_one(instructions):
 
 
 def part_two(instructions):
-    max_distance = sys.maxsize
+    minimum = sys.maxsize
     point = 0
     for i in range(max(instructions)):
-        distance = 0
-        for j in instructions:
-            x = abs(i - j)
-            distance += (x * x + x) / 2
-        if distance < max_distance:
-            max_distance = distance
+        distance = sum([(((x - i) ** 2) + abs(x - i)) / 2 for x in instructions])
+        if distance < minimum:
+            minimum = distance
             point = i
-    return point, max_distance
+    return point, minimum
 
 
 def main():
