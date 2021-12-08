@@ -14,26 +14,32 @@ def part_one(data):
 
 
 def part_two(data):
-    y = 0
     digits = dict()
     summary = 0
     for wires, signals in data:
+        # collect known digits
         wires.sort(key=len)
         one, seven, four = wires[:3]
         eight = wires[-1]
-        a = [h for h in seven if h not in one][0]
-        letters = [x for x in "".join([h for h in wires]).replace(a, "")]
-        for k, v in Counter(letters).items():
-            if v == 6:
-                b = k
-            if v == 4:
-                e = k
-            if v == 8:
-                c = k
-            if v == 9:
-                f = k
-        d = [h for h in four if h not in [b, c, f]][0]
-        g = [h for h in eight if h not in [a, b, c, d, e, f]][0]
+        # derive which letter the led element a is mapped to
+        a = [letter for letter in seven if letter not in one][0]
+        # get a flat list of the usage of all other letters mapped
+        led_strips = [letter for wire in wires for letter in wire if letter != a]
+        for letter, count in Counter(led_strips).items():
+            # we know b, c, e and f have unique amounts so we can map them directly
+            if count == 6:
+                b = letter
+            if count == 4:
+                e = letter
+            if count == 8:
+                c = letter
+            if count == 9:
+                f = letter
+        # deduct d must be the element used in four that is not found yet
+        d = [letter for letter in four if letter not in [b, c, f]][0]
+        # deduct g must be the last remaining element
+        g = [letter for letter in eight if letter not in [a, b, c, d, e, f]][0]
+        # map the displayed digit to the correct elements making up the display
         digits[0] = [a,b,c,e,f,g]
         digits[1] = [c,f]
         digits[2] = [a,c,d,e,g]
@@ -44,6 +50,7 @@ def part_two(data):
         digits[7] = [a,c,f]
         digits[8] = [a,b,c,d,e,f,g]
         digits[9] = [a,b,c,d,f,g]
+        # match the numbers to the known digits and sum them up
         n_str = ""
         for number in signals:
             for k, v in digits.items():
