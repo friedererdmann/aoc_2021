@@ -14,7 +14,6 @@ def part_one(data):
 
 
 def part_two(data):
-    digits = dict()
     summary = 0
     for wires, signals in data:
         # collect known digits
@@ -40,16 +39,18 @@ def part_two(data):
         # deduct g must be the last remaining element
         g = [letter for letter in eight if letter not in [a, b, c, d, e, f]][0]
         # map the displayed digit to the correct elements making up the display
-        digits[0] = [a,b,c,e,f,g]
-        digits[1] = [c,f]
-        digits[2] = [a,c,d,e,g]
-        digits[3] = [a,c,d,f,g]
-        digits[4] = [b,c,d,f]
-        digits[5] = [a,b,d,f,g]
-        digits[6] = [a,b,d,e,f,g]
-        digits[7] = [a,c,f]
-        digits[8] = [a,b,c,d,e,f,g]
-        digits[9] = [a,b,c,d,f,g]
+        digits = {
+            0: [a, b, c, e, f, g],
+            1: [c, f],
+            2: [a, c, d, e, g],
+            3: [a, c, d, f, g],
+            4: [b, c, d, f],
+            5: [a, b, d, f, g],
+            6: [a, b, d, e, f, g],
+            7: [a, c, f],
+            8: [a, b, c, d, e, f, g],
+            9: [a, b, c, d, f, g]
+        }
         # match the numbers to the known digits and sum them up
         n_str = ""
         for number in signals:
