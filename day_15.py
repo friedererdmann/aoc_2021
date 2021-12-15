@@ -28,8 +28,9 @@ def astar(data, start, goal):
         for neighbor in neighbors:
             if neighbor in visited or not data.get(neighbor):
                 continue
-            came_from[neighbor] = score + data[neighbor]
-
+            current_value = came_from.get(neighbor)
+            if not current_value or score + data[neighbor] < current_value:
+                came_from[neighbor] = score + data[neighbor]
 
 
 def part_one(data):
