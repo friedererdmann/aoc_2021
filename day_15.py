@@ -16,7 +16,6 @@ def astar(data, start, goal):
     while True:
         current = min(came_from, key=came_from.get)
         score = came_from[current]
-        print(current, data[current], score)
         came_from.pop(current)
         if current in visited:
             continue
@@ -40,7 +39,21 @@ def part_one(data):
 
 
 def part_two(data):
-    return data
+    large_data = dict()
+    for i in range(5):
+        for j in range(5):
+            for k,v in data.items():
+                value = v + i + j
+                while value > 9:
+                    value = value - 9
+                index_x = k[0] + (i*100)
+                index_y = k[1] + (j*100)
+                large_data[(index_x, index_y)] = value
+                print((index_x, index_y), value, i, j)
+
+    starting_point = (0, 0)
+    ending_point = (max([x for x, _ in large_data.keys()]),max([y for _, y in large_data.keys()]))
+    return astar(large_data, starting_point, ending_point)
 
 
 def main():
@@ -48,7 +61,7 @@ def main():
     instructions = read_file_to_lines(file_path)
     data = data_prep(instructions)
     print(part_one(data))  # 1588, 2170
-    # print(part_two(data))  # 2188189693529, 2422444761283
+    print(part_two(data))  # 2188189693529, 2422444761283
 
 
 if __name__ == "__main__":
