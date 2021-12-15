@@ -49,8 +49,6 @@ def part_two(data):
                 index_x = k[0] + (i*100)
                 index_y = k[1] + (j*100)
                 large_data[(index_x, index_y)] = value
-                print((index_x, index_y), value, i, j)
-
     starting_point = (0, 0)
     ending_point = (max([x for x, _ in large_data.keys()]),max([y for _, y in large_data.keys()]))
     return astar(large_data, starting_point, ending_point)
